@@ -10,11 +10,10 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
+model Submission {
+    id        String   @id @default(cuid())
+    code      String
+    language  String
+    feedback  String
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@index([name])
 }
