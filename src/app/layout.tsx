@@ -6,6 +6,7 @@ import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
 import { SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
 import { SubmissionHistory } from "~/components/submission-history";
+import { HydrateClient } from "~/trpc/server";
 
 export const metadata: Metadata = {
   title: "CodeReview Mentor",
@@ -26,7 +27,9 @@ export default function RootLayout({
             <div className="sticky top-0 h-8 bg-neutral-900">
               <SidebarTrigger className="my-auto" />
             </div>
-            <TRPCReactProvider>{children}</TRPCReactProvider>
+            <TRPCReactProvider>
+              <HydrateClient>{children}</HydrateClient>
+            </TRPCReactProvider>
           </main>
         </SidebarProvider>
       </body>

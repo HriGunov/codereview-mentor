@@ -1,13 +1,13 @@
-import { HydrateClient } from "~/trpc/server";
 import { FeedbackForm } from "~/components/feedbackForm";
-
+import { CodeEditor } from "~/components/code-editor";
+import { InteractiveArea } from "~/components/interactive-area";
 export const dynamic = "force-dynamic";
 export const maxDuration = 30;
 
-export default async function Home() {
+export default function Home() {
   return (
-    <HydrateClient>
-      <FeedbackForm />
-    </HydrateClient>
+    <div className="flex min-h-screen flex-col justify-end bg-neutral-800">
+      <InteractiveArea />
+    </div>
   );
 }
