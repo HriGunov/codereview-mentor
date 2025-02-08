@@ -1,5 +1,5 @@
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
-import { submissions } from "./routers/submissions-route";
+import { submissionsRouter } from "./routers/submissions-route";
 import { aiRouter } from "./routers/ai-router";
 
 /**
@@ -8,7 +8,7 @@ import { aiRouter } from "./routers/ai-router";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  submissions,
+  submissions: submissionsRouter,
   ai: aiRouter,
 });
 

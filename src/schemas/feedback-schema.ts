@@ -12,7 +12,7 @@ export const feedbackSchema = z
       z.string().describe("Key findings from the code review."),
     ),
   })
-  .describe("Feedback, limited to 300 tokens");
+  .describe("Code Review Feedback, limited to 450 tokens");
 
 export type PartialFeedback = DeepPartial<z.infer<typeof feedbackSchema>>;
 export type Feedback = z.infer<typeof feedbackSchema>;

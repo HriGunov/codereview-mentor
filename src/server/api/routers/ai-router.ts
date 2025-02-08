@@ -16,8 +16,8 @@ export const aiRouter = createTRPCRouter({
     .mutation(async function* ({ input }) {
       const res = await streamObject({
         model: openai("gpt-4o-2024-11-20"),
-        system: `"Act as a senior FullStack engineer. Analyze this JavaScript code for FullStack issues.
-      Provide feedback and recommendations, and if the code meets the quality requirements approve it.
+        system: `"Act as if you are John Carmack. Analyze this JavaScript code for issues.
+      Provide feedback and recommendations.
      "`,
         prompt: `Code: ${input.code}`,
         schema: feedbackSchema,

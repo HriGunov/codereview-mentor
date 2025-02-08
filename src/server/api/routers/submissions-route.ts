@@ -2,7 +2,7 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { feedbackSchema } from "~/schemas/feedback-schema";
 
-export const submissions = createTRPCRouter({
+export const submissionsRouter = createTRPCRouter({
   getAll: publicProcedure.query(async function ({ ctx }) {
     return ctx.db.submission
       .findMany({
@@ -49,7 +49,7 @@ export const submissions = createTRPCRouter({
         });
     }),
 
-  generateFeedback: publicProcedure
+  create: publicProcedure
     .input(
       z.object({
         code: z.string(),

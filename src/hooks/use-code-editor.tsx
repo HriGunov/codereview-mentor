@@ -5,7 +5,9 @@ export function useCodeEditor() {
         console.log('Hello World!');
 }`);
 
-  const [editorLanguage, setEditorLanguage] = useState<string>("JavaScript");
+  const [editorLanguage, setEditorLanguage] = useState<
+    "JavaScript" | "TypeScript" | "Python"
+  >("JavaScript");
 
   const clearEditor = useCallback(() => {
     setEditorValue("");

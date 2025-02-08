@@ -1,11 +1,5 @@
 "use client";
-import React, {
-  forwardRef,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-} from "react";
+import React, { useCallback, useContext, useEffect, useRef } from "react";
 import { LoaderCircle } from "lucide-react";
 import { readStreamableValue } from "ai/rsc";
 import { useState } from "react";
@@ -13,14 +7,14 @@ import { generateFeedback } from "~/app/actions";
 import { CodeEditorContext } from "./interactive-area";
 import { PartialFeedback } from "~/schemas/feedback-schema";
 import { Skeleton } from "./ui/skeleton";
+import { api } from "../trpc/react";
 
 export const FeedbackForm: React.FC = () => {
   const [generation, setGeneration] = useState<PartialFeedback | null>(null);
   const feedbackAreaRef = useRef<HTMLDivElement | null>(null);
-
   const editorContext = useContext(CodeEditorContext);
-
   const [loadingFeedback, setLoading] = useState(false);
+  const trpcUtils = api.useUtils();
 
   const disableGenerateFeedback =
     (!!editorContext?.editorValue && editorContext?.editorValue.length <= 3) ||
@@ -43,7 +37,10 @@ export const FeedbackForm: React.FC = () => {
     setLoading(true);
     setGeneration(null);
 
-    const stream = await generateFeedback(editorContext.editorValue);
+    const stream = await generateFeedback({
+      code: editorContext.editorValue,
+      language: editorContext.editorLanguage,
+    });
 
     for await (const partialObject of readStreamableValue(stream.object)) {
       if (partialObject) {
@@ -52,10 +49,15 @@ export const FeedbackForm: React.FC = () => {
     }
 
     setLoading(false);
-  }, [editorContext?.editorValue]);
+    trpcUtils.submissions.getAll.invalidate();
+  }, [
+    editorContext?.editorValue,
+    editorContext?.editorLanguage,
+    generateFeedback,
+  ]);
 
   return (
-    <>
+    <div ref={feedbackAreaRef} className="flex flex-grow flex-col">
       <button
         disabled={disableGenerateFeedback}
         onClick={handleGenerateFeedback}
@@ -82,51 +84,44 @@ export const FeedbackForm: React.FC = () => {
           </div>
         )}
 
-        {generation && (
-          <FeedbackElement ref={feedbackAreaRef} {...generation} />
-        )}
+        {generation && <FeedbackElement {...generation} />}
       </div>
-    </>
+    </div>
   );
 };
 
-const FeedbackElement = forwardRef<HTMLDivElement, PartialFeedback>(
-  (feedback, ref) => {
-    return (
-      <div
-        ref={ref}
-        className="inset-shadow inset-shadow-indigo-500 m-4 box-border rounded-2xl bg-gray-800 stroke-white p-4 text-xl shadow-[-5px_-6px_5px_rgba(121,22,87,0.3),4px_5px_15px_#9966ff]"
-      >
-        {!!feedback?.shortSummary && (
-          <>
-            <h2 className="font-semibol text-5xl">Feedback Overview</h2>
-            <p className="mt-2">{feedback.shortSummary}</p>
-          </>
-        )}
+const FeedbackElement: React.FC<PartialFeedback> = (feedback) => {
+  return (
+    <div className="inset-shadow inset-shadow-indigo-500 m-4 box-border rounded-2xl bg-gray-800 stroke-white p-4 text-xl shadow-[-5px_-6px_5px_rgba(121,22,87,0.3),4px_5px_15px_#9966ff]">
+      {!!feedback?.shortSummary && (
+        <>
+          <h2 className="font-semibol text-5xl">Feedback Overview</h2>
+          <p className="mt-2">{feedback.shortSummary}</p>
+        </>
+      )}
 
-        {!!feedback?.criticalRecommendations &&
-          feedback?.criticalRecommendations.length > 0 && (
-            <div className="mt-4">
-              <h3 className="font-bol text-3xl">Critical Recommendations:</h3>
-              <ul className="list-inside list-disc">
-                {feedback.criticalRecommendations}
-              </ul>
-            </div>
-          )}
-
-        {!!feedback?.keyFindings && feedback?.keyFindings.length > 0 && (
+      {!!feedback?.criticalRecommendations &&
+        feedback?.criticalRecommendations.length > 0 && (
           <div className="mt-4">
-            <h3 className="text-3xl font-bold">Key Findings:</h3>
+            <h3 className="font-bol text-3xl">Critical Recommendations:</h3>
             <ul className="list-inside list-disc">
-              {feedback.keyFindings.map((finding, index) => (
-                <li key={index} className="">
-                  {finding}
-                </li>
-              ))}
+              {feedback.criticalRecommendations}
             </ul>
           </div>
         )}
-      </div>
-    );
-  },
-);
+
+      {!!feedback?.keyFindings && feedback?.keyFindings.length > 0 && (
+        <div className="mt-4">
+          <h3 className="text-3xl font-bold">Key Findings:</h3>
+          <ul className="list-inside list-disc">
+            {feedback.keyFindings.map((finding, index) => (
+              <li key={index} className="">
+                {finding}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
