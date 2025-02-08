@@ -5,9 +5,9 @@ import { api } from "~/trpc/server";
 type SubmissionType = Awaited<ReturnType<typeof api.submissions.getById>>;
 
 const OpenSubmissionPage = async (props: {
-  params: { submissionId: string };
+  params: Promise<{ submissionId: string }>;
 }) => {
-  const params = props.params;
+  const params = await props.params;
 
   let matchedSubmission: SubmissionType | undefined;
 
