@@ -9,7 +9,6 @@ import { javascript as javaScriptLanguage } from "@codemirror/lang-javascript";
 import { python as pythonLanguage } from "@codemirror/lang-python";
 import { CodeEditorContext } from "./interactive-area";
 import { Button } from "./ui/button";
-import { Select } from "./ui/select";
 import { LanguagePicker } from "./language-picker";
 const DEFAULT_LANGUAGE = "JavaScript";
 
@@ -21,9 +20,9 @@ export const CodeEditor: React.FC = () => {
   const [copyButtonText, setSetCopyButtonText] = useState(
     COPY_BUTTON_ACTION_LABEL,
   );
-  const language = editorContext?.editorLanguage || DEFAULT_LANGUAGE;
+  const language = editorContext?.editorLanguage ?? DEFAULT_LANGUAGE;
 
-  let languageSupport = useMemo(() => {
+  const languageSupport = useMemo(() => {
     switch (language) {
       case "TypeScript":
         return javaScriptLanguage({ jsx: true, typescript: true });
@@ -39,7 +38,7 @@ export const CodeEditor: React.FC = () => {
     (value: string) => {
       editorContext?.setEditorValue(value);
     },
-    [editorContext?.setEditorValue],
+    [editorContext],
   );
 
   const onCopyToClipboard = useCallback(async () => {
@@ -55,7 +54,7 @@ export const CodeEditor: React.FC = () => {
 
   const onClearEditor = useCallback(async () => {
     editorContext?.clearEditor();
-  }, [editorContext?.clearEditor]);
+  }, [editorContext]);
 
   return (
     <div className="w-full">

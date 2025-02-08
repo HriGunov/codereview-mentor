@@ -1,13 +1,13 @@
 "use server";
 import { openai } from "@ai-sdk/openai";
-import { streamObject, StreamObjectResult, streamText } from "ai";
+import { streamObject, type StreamObjectResult } from "ai";
 import { createStreamableValue } from "ai/rsc";
 import { z } from "zod";
 
 import {
-  PartialFeedback,
+  type PartialFeedback,
+  type Feedback,
   feedbackSchema,
-  Feedback,
 } from "~/schemas/feedback-schema";
 import { api } from "~/trpc/server";
 
@@ -22,15 +22,11 @@ export async function generateFeedback(context: Params) {
   "use server";
   const feedbackStream = createStreamableValue<PartialFeedback>();
 
-  try {
-    generateFeedbackSchema.parse(context);
-  } catch (e) {
-    throw new Error("Action generateFeedback called with invalid parameters.");
-  }
+  generateFeedbackSchema.parse(context);
 
   const { code, language } = context;
 
-  (async () => {
+  void (async () => {
     const stream: StreamObjectResult<PartialFeedback, Feedback, never> =
       streamObject({
         model: openai("gpt-4o-2024-11-20"),
@@ -41,7 +37,7 @@ export async function generateFeedback(context: Params) {
         schema: feedbackSchema,
         maxTokens: 450,
         schemaDescription: "Format for feedback to be given.",
-        onFinish: async (props) => {
+        onFinish: async () => {
           const feedback = await stream.object;
 
           await api.submissions.create({ code, language, feedback });

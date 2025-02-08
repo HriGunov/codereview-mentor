@@ -23,26 +23,25 @@ export function SubmissionHistory() {
       <SidebarContent className="h-full overflow-hidden">
         <SidebarGroup className="h-full">
           <SidebarGroupLabel>
-            Submission History {(data?.length || 0) > 0 && `(${data?.length})`}
+            Submission History {(data?.length ?? 0) > 0 && `(${data?.length})`}
           </SidebarGroupLabel>
           <SidebarGroupContent className="h-full">
             <SidebarMenu className="h-full">
               <ScrollArea type="scroll" className="flex grow">
                 {isError && <SubmissionsErrorCard />}
                 {isFetching && <LoadingCard />}
-                {data && data.length === 0 && <NoSubmissions />}
-                {data &&
-                  data.map((item, i) => {
-                    return (
-                      <SubmissionCard
-                        key={item.id}
-                        id={item.id}
-                        summary={item.feedback.shortSummary}
-                        language={item.language}
-                        createAt={item.createdAt}
-                      />
-                    );
-                  })}
+                {data?.length === 0 && <NoSubmissions />}
+                {data?.map((item) => {
+                  return (
+                    <SubmissionCard
+                      key={item.id}
+                      id={item.id}
+                      summary={item.feedback.shortSummary}
+                      language={item.language}
+                      createAt={item.createdAt}
+                    />
+                  );
+                })}
               </ScrollArea>
             </SidebarMenu>
           </SidebarGroupContent>

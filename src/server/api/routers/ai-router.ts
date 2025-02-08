@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { streamObject, streamText } from "ai";
+import { streamObject } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { feedbackSchema } from "../../../schemas/feedback-schema";
 
@@ -14,7 +14,7 @@ export const aiRouter = createTRPCRouter({
       }),
     )
     .mutation(async function* ({ input }) {
-      const res = await streamObject({
+      const res = streamObject({
         model: openai("gpt-4o-2024-11-20"),
         system: `"Act as if you are John Carmack. Analyze this JavaScript code for issues.
       Provide feedback and recommendations.

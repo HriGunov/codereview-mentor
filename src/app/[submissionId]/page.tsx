@@ -1,4 +1,3 @@
-import { NextPage } from "next";
 import { InteractiveArea } from "~/components/interactive-area";
 import { api } from "~/trpc/server";
 
@@ -17,11 +16,11 @@ const OpenSubmissionPage = async (props: {
     });
 
     matchedSubmission = res;
-  } catch (error) {}
+  } catch (e) {}
 
   return (
     <div className="flex min-h-screen flex-col justify-end bg-neutral-800">
-      <InteractiveArea solution={matchedSubmission || undefined} />
+      <InteractiveArea solution={matchedSubmission ?? undefined} />
     </div>
   );
 };

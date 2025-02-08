@@ -32,7 +32,6 @@ type AreaStateProps = {
 
 export const InteractiveArea: React.FC<AreaStateProps> = (props) => {
   const codeEditor = useCodeEditor(props.solution);
-  props?.solution?.feedback;
 
   return (
     <CodeEditorContext.Provider value={codeEditor || null}>

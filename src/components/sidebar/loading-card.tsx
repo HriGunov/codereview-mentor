@@ -1,12 +1,5 @@
-import { LoaderCircle, PackageOpen } from "lucide-react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "../ui/card";
+import { LoaderCircle } from "lucide-react";
+import { Card, CardDescription, CardContent, CardFooter } from "../ui/card";
 import { SidebarMenuItem } from "../ui/sidebar";
 
 export function LoadingCard() {

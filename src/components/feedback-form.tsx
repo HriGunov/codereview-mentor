@@ -5,7 +5,7 @@ import { readStreamableValue } from "ai/rsc";
 import { useState } from "react";
 import { generateFeedback } from "~/app/actions";
 import { CodeEditorContext } from "./interactive-area";
-import { PartialFeedback } from "~/schemas/feedback-schema";
+import { type PartialFeedback } from "~/schemas/feedback-schema";
 import { Skeleton } from "./ui/skeleton";
 import { api } from "../trpc/react";
 
@@ -16,7 +16,7 @@ type Props = {
 export const FeedbackForm: React.FC<Props> = (props) => {
   const { initialFeedback } = props;
   const [generation, setGeneration] = useState<PartialFeedback | null>(
-    initialFeedback || null,
+    initialFeedback ?? null,
   );
   const feedbackAreaRef = useRef<HTMLDivElement | null>(null);
   const editorContext = useContext(CodeEditorContext);
@@ -56,11 +56,11 @@ export const FeedbackForm: React.FC<Props> = (props) => {
     }
 
     setLoading(false);
-    trpcUtils.submissions.getAll.invalidate();
+    void trpcUtils.submissions.getAll.invalidate();
   }, [
     editorContext?.editorValue,
     editorContext?.editorLanguage,
-    generateFeedback,
+    trpcUtils.submissions.getAll,
   ]);
 
   return (

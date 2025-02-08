@@ -12,14 +12,14 @@ type Props =
 type Languages = "JavaScript" | "TypeScript" | "Python";
 export function useCodeEditor(initialValues: Props) {
   const [editorValue, setEditorValue] = useState(
-    initialValues?.code ||
+    initialValues?.code ??
       `function helloWorld() {
         console.log('Hello World!');
 }`,
   );
 
   const [editorLanguage, setEditorLanguage] = useState<Languages>(
-    (initialValues?.language as Languages) || "JavaScript",
+    (initialValues?.language as Languages) ?? "JavaScript",
   );
 
   const clearEditor = useCallback(() => {
