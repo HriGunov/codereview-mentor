@@ -104,3 +104,8 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
  * are logged in.
  */
 export const publicProcedure = t.procedure.use(timingMiddleware);
+
+/**
+ * If I had auth, I would have to create another procedure to publicly view submissions based on a link.
+ */
+export const publicProcedureForSharing = t.procedure.use(timingMiddleware);

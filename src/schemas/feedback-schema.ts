@@ -6,6 +6,7 @@ export const feedbackSchema = z
     shortSummary: z.string().describe("Brief summary (1 sentence)"),
     criticalRecommendations: z
       .string()
+      .optional()
       .describe("Most critical recommendations"),
     keyFindings: z.array(
       z.string().describe("Key findings from the code review."),

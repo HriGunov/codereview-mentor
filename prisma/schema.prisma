@@ -11,9 +11,19 @@ datasource db {
 }
 
 model Submission {
-    id        String   @id @default(cuid())
-    code      String
-    language  String
-    feedback  String
-    createdAt DateTime @default(now())
+    id         String   @id @default(cuid())
+    code       String
+    language   String
+    feedback   Feedback @relation(fields: [feedbackId], references: [id])
+    feedbackId String   @unique
+    createdAt  DateTime @default(now())
+}
+
+model Feedback {
+    id                      String      @id @default(cuid())
+    submission              Submission? @relation
+    shortSummary            String
+    keyFindings             String
+    criticalRecommendations String?
+    createdAt               DateTime    @default(now())
 }
