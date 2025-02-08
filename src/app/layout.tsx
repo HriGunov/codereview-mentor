@@ -20,18 +20,19 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable} dark`}>
       <body>
-        <SidebarProvider>
-          <SubmissionHistory />
-          <header className="inline-block"></header>
-          <main className="flex w-full flex-col">
-            <div className="sticky top-0 h-8 bg-neutral-900">
-              <SidebarTrigger className="my-auto" />
-            </div>
-            <TRPCReactProvider>
+        <TRPCReactProvider>
+          <SidebarProvider>
+            <SubmissionHistory />
+            <header className="inline-block"></header>
+            <main className="flex w-full flex-col">
+              <div className="sticky top-0 h-8 bg-neutral-900">
+                <SidebarTrigger className="my-auto" />
+              </div>
+
               <HydrateClient>{children}</HydrateClient>
-            </TRPCReactProvider>
-          </main>
-        </SidebarProvider>
+            </main>
+          </SidebarProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );
