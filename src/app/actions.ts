@@ -22,6 +22,8 @@ export async function generateFeedback(context: string) {
      "`,
         prompt: `Code: ${context}`,
         schema: feedbackSchema,
+        maxTokens: 300,
+        schemaDescription: "Format for feedback to be given.",
       });
 
     for await (const partialObject of stream.partialObjectStream) {

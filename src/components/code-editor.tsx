@@ -24,8 +24,6 @@ export const CodeEditor: React.FC = () => {
   const language = editorContext?.editorLanguage || DEFAULT_LANGUAGE;
 
   let languageSupport = useMemo(() => {
-    console.log({ language });
-
     switch (language) {
       case "TypeScript":
         return javaScriptLanguage({ jsx: true, typescript: true });
@@ -71,7 +69,7 @@ export const CodeEditor: React.FC = () => {
         onChange={onChange}
       />
 
-      <div className="gap flex flex-col justify-start gap-4 px-1 py-2 md:flex-row md:justify-between">
+      <div className="gap mt-4 flex flex-col justify-start gap-4 px-2 py-2 md:flex-row md:justify-between">
         <LanguagePicker />
         <div className="flex flex-col gap-4 md:flex-row">
           <Button onClick={onCopyToClipboard} className="min-w-40">

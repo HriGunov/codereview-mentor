@@ -2,7 +2,7 @@
 
 import React from "react";
 import { CodeEditor } from "./code-editor";
-import { FeedbackForm } from "./feedbackForm";
+import { FeedbackForm } from "./feedback-form";
 import { createContext } from "react";
 import { useCodeEditor } from "~/hooks/use-code-editor";
 
