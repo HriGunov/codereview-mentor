@@ -1,13 +1,26 @@
 import { useCallback, useMemo, useState } from "react";
 
-export function useCodeEditor() {
-  const [editorValue, setEditorValue] = useState(`function helloWorld() {
-        console.log('Hello World!');
-}`);
+type Props =
+  | {
+      language: string;
+      code: string;
+      createdAt: Date;
+      feedbackId: string;
+    }
+  | undefined;
 
-  const [editorLanguage, setEditorLanguage] = useState<
-    "JavaScript" | "TypeScript" | "Python"
-  >("JavaScript");
+type Languages = "JavaScript" | "TypeScript" | "Python";
+export function useCodeEditor(initialValues: Props) {
+  const [editorValue, setEditorValue] = useState(
+    initialValues?.code ||
+      `function helloWorld() {
+        console.log('Hello World!');
+}`,
+  );
+
+  const [editorLanguage, setEditorLanguage] = useState<Languages>(
+    (initialValues?.language as Languages) || "JavaScript",
+  );
 
   const clearEditor = useCallback(() => {
     setEditorValue("");

@@ -10,7 +10,7 @@ import { SidebarMenuItem } from "../ui/sidebar";
 
 export function SubmissionsErrorCard() {
   return (
-    <SidebarMenuItem className="pb-2">
+    <SidebarMenuItem key="error" className="pb-2">
       <Card>
         <CardHeader>
           <CardTitle>Error</CardTitle>

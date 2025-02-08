@@ -16,10 +16,8 @@ import { SubmissionCard } from "./submission-card";
 import { LoadingCard } from "./loading-card";
 
 export function SubmissionHistory() {
-  const { isLoading, data, isError, isFetching } =
-    api.submissions.getAll.useQuery();
+  const { data, isError, isFetching } = api.submissions.getAll.useQuery();
 
-  console.log({ data });
   return (
     <Sidebar>
       <SidebarContent className="h-full overflow-hidden">
@@ -37,6 +35,7 @@ export function SubmissionHistory() {
                   data.map((item, i) => {
                     return (
                       <SubmissionCard
+                        key={item.id}
                         id={item.id}
                         summary={item.feedback.shortSummary}
                         language={item.language}

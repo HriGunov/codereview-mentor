@@ -11,7 +11,7 @@ import { HydrateClient } from "~/trpc/server";
 export const metadata: Metadata = {
   title: "CodeReview Mentor",
   description: "",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/favicon.png" }],
 };
 
 export default function RootLayout({

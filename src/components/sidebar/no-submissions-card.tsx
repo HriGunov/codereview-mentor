@@ -10,7 +10,7 @@ import { SidebarMenuItem } from "../ui/sidebar";
 
 export function NoSubmissions() {
   return (
-    <SidebarMenuItem className="pb-2">
+    <SidebarMenuItem key="no-submissions" className="pb-2">
       <Card>
         <CardHeader>
           <CardTitle>Empty</CardTitle>

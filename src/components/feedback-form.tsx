@@ -9,8 +9,15 @@ import { PartialFeedback } from "~/schemas/feedback-schema";
 import { Skeleton } from "./ui/skeleton";
 import { api } from "../trpc/react";
 
-export const FeedbackForm: React.FC = () => {
-  const [generation, setGeneration] = useState<PartialFeedback | null>(null);
+type Props = {
+  initialFeedback?: PartialFeedback;
+};
+
+export const FeedbackForm: React.FC<Props> = (props) => {
+  const { initialFeedback } = props;
+  const [generation, setGeneration] = useState<PartialFeedback | null>(
+    initialFeedback || null,
+  );
   const feedbackAreaRef = useRef<HTMLDivElement | null>(null);
   const editorContext = useContext(CodeEditorContext);
   const [loadingFeedback, setLoading] = useState(false);
