@@ -5,7 +5,7 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
-import { SubmissionHistory } from "~/components/submission-history";
+import { SubmissionHistory } from "~/components/sidebar/submission-history";
 import { HydrateClient } from "~/trpc/server";
 
 export const metadata: Metadata = {

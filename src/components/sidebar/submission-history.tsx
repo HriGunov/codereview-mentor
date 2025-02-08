@@ -14,9 +14,9 @@ import {
   SidebarMenuItem,
 } from "~/components/ui/sidebar";
 import { api } from "~/trpc/react";
-import { NoSubmissions } from "./sidebar/no-submissions-card";
-import { SubmissionsErrorCard } from "./sidebar/error-card";
-import { SubmissionCard } from "./sidebar/submission-card";
+import { NoSubmissions } from "./no-submissions-card";
+import { SubmissionsErrorCard } from "./error-card";
+import { SubmissionCard } from "./submission-card";
 
 // Menu items.
 const items = [
