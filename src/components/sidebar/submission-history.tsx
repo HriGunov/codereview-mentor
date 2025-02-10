@@ -14,16 +14,36 @@ import { NoSubmissions } from "./no-submissions-card";
 import { SubmissionsErrorCard } from "./error-card";
 import { SubmissionCard } from "./submission-card";
 import { LoadingCard } from "./loading-card";
+import { Button } from "../ui/button";
+import { Trash2 } from "lucide-react";
+import { useCallback } from "react";
 
 export function SubmissionHistory() {
   const { data, isError, isFetching } = api.submissions.getAll.useQuery();
+  const deleteSubmissionMut = api.submissions.deleteAll.useMutation();
+  const trpcUtils = api.useUtils();
+
+  const handleDeleteHistory = useCallback(async () => {
+    await deleteSubmissionMut.mutateAsync();
+    await trpcUtils.submissions.invalidate();
+  }, [deleteSubmissionMut, trpcUtils.submissions]);
 
   return (
     <Sidebar>
       <SidebarContent className="h-full overflow-hidden">
         <SidebarGroup className="h-full">
-          <SidebarGroupLabel>
-            Submission History {(data?.length ?? 0) > 0 && `(${data?.length})`}
+          <SidebarGroupLabel className="flex justify-between">
+            <span>
+              Submission History{" "}
+              {(data?.length ?? 0) > 0 && `(${data?.length})`}
+            </span>
+
+            <Button
+              className="max-h-fit max-w-fit p-1"
+              onClick={handleDeleteHistory}
+            >
+              <Trash2 />
+            </Button>
           </SidebarGroupLabel>
           <SidebarGroupContent className="h-full">
             <SidebarMenu className="h-full">

@@ -8,6 +8,7 @@ import {
   CardFooter,
 } from "../ui/card";
 import { SidebarMenuItem } from "../ui/sidebar";
+import Link from "next/link";
 
 type CardProps = {
   id: string;
@@ -69,7 +70,7 @@ export function SubmissionCard(props: CardProps) {
 
   return (
     <SidebarMenuItem key={id} className="pb-2">
-      <a href={id}>
+      <Link href={id}>
         <Card>
           <CardHeader>
             <CardTitle>{`${language} submission`}</CardTitle>
@@ -81,7 +82,7 @@ export function SubmissionCard(props: CardProps) {
             <p>Created {timeAgo}</p>
           </CardFooter>
         </Card>
-      </a>
+      </Link>
     </SidebarMenuItem>
   );
 }

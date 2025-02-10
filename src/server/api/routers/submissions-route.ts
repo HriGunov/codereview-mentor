@@ -77,6 +77,14 @@ export const submissionsRouter = createTRPCRouter({
         },
       });
     }),
+  /**
+   * Normally I would not do this, I would add column to the DB tracking the deleted status.
+   * Creating this endpoint because it's easier to play around with the app now that it is "finished"
+   */
+  deleteAll: publicProcedure.mutation(async function ({ ctx }) {
+    await ctx.db.submission.deleteMany();
+    await ctx.db.feedback.deleteMany();
+  }),
 });
 
 // For storing array of strings in record, I know it's not right, but I am running short of time
