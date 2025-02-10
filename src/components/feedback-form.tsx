@@ -22,9 +22,9 @@ export const FeedbackForm: React.FC<Props> = (props) => {
   const editorContext = useContext(CodeEditorContext);
   const [loadingFeedback, setLoading] = useState(false);
   const trpcUtils = api.useUtils();
-
+  
   const disableGenerateFeedback =
-    (!!editorContext?.editorValue && editorContext?.editorValue.length <= 3) ||
+    (!!editorContext?.editorValue && (editorContext?.editorValue.length < 30 || editorContext?.editorValue.length > 500)) ||
     loadingFeedback;
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export const FeedbackForm: React.FC<Props> = (props) => {
       <button
         disabled={disableGenerateFeedback}
         onClick={handleGenerateFeedback}
-        className="mx-2 mt-4 flex items-center justify-center gap-4 rounded-xl border-[1px] border-white bg-neutral-700 p-5 text-xl"
+        className="cursor-pointer mx-2 mt-4 flex items-center justify-center gap-4 rounded-xl border-[1px] border-white bg-neutral-700 p-5 text-xl disabled:cursor-not-allowed disabled:bg-slate-800"
       >
         {!loadingFeedback ? (
           "Generate Feedback"
@@ -76,6 +76,12 @@ export const FeedbackForm: React.FC<Props> = (props) => {
           <LoaderCircle className="animate-spin" />
         )}
       </button>
+
+       {/*
+            This where I would show the error states return from generateFeedback and why code can't be submitted  (zod validation failed, OpenAI errors, etc.)
+            But did not have to implement that.
+          <MessageArea /> 
+        */}
 
       <div className="flex w-full grow flex-col gap-6 p-4">
         {loadingFeedback && !generation && (

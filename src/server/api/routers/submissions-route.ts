@@ -52,7 +52,7 @@ export const submissionsRouter = createTRPCRouter({
   create: publicProcedure
     .input(
       z.object({
-        code: z.string(),
+        code: z.string().min(30).max(500),
         language: z.enum(["JavaScript", "TypeScript", "Python"]),
         feedback: feedbackSchema,
       }),

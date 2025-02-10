@@ -10,7 +10,7 @@ export const aiRouter = createTRPCRouter({
   generateFeedback: publicProcedure
     .input(
       z.object({
-        code: z.string(),
+        code: z.string().min(30).max(500),
       }),
     )
     .mutation(async function* ({ input }) {

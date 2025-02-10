@@ -12,7 +12,7 @@ import {
 import { api } from "~/trpc/server";
 
 const generateFeedbackSchema = z.object({
-  code: z.string().min(4),
+  code: z.string().min(30).max(500),
   language: z.enum(["JavaScript", "TypeScript", "Python"]),
 });
 
@@ -30,7 +30,7 @@ export async function generateFeedback(context: Params) {
     const stream: StreamObjectResult<PartialFeedback, Feedback, never> =
       streamObject({
         model: openai("gpt-4o-2024-11-20"),
-        system: `Act as if you are senior ${language}. Analyze this code for FullStack issues.
+        system: `Act as if you are senior ${language}. Analyze this code for issues.
         Provide feedback and recommendations on how to improve the code.
      `,
         prompt: `Code: ${code}`,
